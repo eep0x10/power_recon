@@ -2,14 +2,14 @@
 # Descobre todos os hosts da rede e salva em 2 arquivos, HostsTrue e HostsFalse
 # HostsTrue deverá ser testado se tem aplicacao web e HostsFalse é recomendável fazer um novo scan utilizando um novo IP (A fim de evitar blocks do Firewall)
 $net = '192.168'
-(0..1) | foreach {
+(0..1) | ForEach-Object {
     $subnet = "$net.$_"
 
-    (1..254) | foreach {
+    (1..254) | ForEach-Object {
         $ip = "$subnet.$_"
         $props = @{
             'IP' = $ip;
-            'Name' = (Resolve-DnsName $ip -errorAction SilentlyContinue | select -ExpandProperty NameHost);
+            'Name' = (Resolve-DnsName $ip -errorAction SilentlyContinue | Select-Object -ExpandProperty NameHost);
             'Response' = (Test-Connection $ip -Quiet -Count 1)
         }
 
